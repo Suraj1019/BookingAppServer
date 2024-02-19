@@ -15,6 +15,7 @@ app.use(cors({
 app.use(express.json())
 app.use('/user', userRoutes);
 
+console.log("git test")
 app.listen(PORT, () => {
     console.log(`App is listening at port => ${PORT}`)
 })

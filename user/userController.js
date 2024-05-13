@@ -19,6 +19,7 @@ const register = async (req, res) => {
         res.json({
           name: userDoc.name,
           email: userDoc.email,
+          userId: userDoc._id,
           token: token,
         });
       }
@@ -44,6 +45,7 @@ const login = async (req, res) => {
             res.json({
               name: userDoc.name,
               email: userDoc.email,
+              userId: userDoc._id,
               token: token,
             });
           }

@@ -19,6 +19,9 @@ app.use(express.json());
 
 connectDB();
 
+app.get("/", (req, res) => {
+  res.send("booking app server");
+});
 app.use("/user", userRoutes);
 app.use("/upload", imageRoutes);
 app.use("/uploads", express.static(__dirname + "/uploads"));

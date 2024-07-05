@@ -20,7 +20,7 @@ app.use(express.json());
 connectDB();
 
 app.get("/", (req, res) => {
-  res.send("booking app server");
+  res.send("booking app server cicd test");
 });
 app.use("/user", userRoutes);
 app.use("/upload", imageRoutes);

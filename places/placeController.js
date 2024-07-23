@@ -16,7 +16,7 @@ const addPlace = async (req, res) => {
   }
 };
 
-const getPlaces = async (req, res) => {
+const getPlacesByUserId = async (req, res) => {
   const { userId } = req.query;
   try {
     const data = await place.find({
@@ -25,6 +25,16 @@ const getPlaces = async (req, res) => {
     res.json({
       data: data,
     });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getPlaces = async (req, res) => {
+  try {
+    const data = await place.find();
+    res.json(data);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error.message });
@@ -53,4 +63,10 @@ const updatePlace = async (req, res) => {
   }
 };
 
-module.exports = { addPlace, getPlaces, getPlace, updatePlace };
+module.exports = {
+  addPlace,
+  getPlaces,
+  getPlacesByUserId,
+  getPlace,
+  updatePlace,
+};

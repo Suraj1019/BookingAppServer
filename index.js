@@ -11,7 +11,7 @@ const placeRoutes = require("./places/placeRoutes");
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://airbnb-booking.netlify.app/"],
   })
 );
 

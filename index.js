@@ -7,6 +7,7 @@ const { connectDB } = require("./mongoConfig");
 const userRoutes = require("./user/userRoutes");
 const imageRoutes = require("./uploads/index");
 const placeRoutes = require("./places/placeRoutes");
+const bookingRoutes = require("./bookings/bookingRoutes");
 
 app.use(
   cors({
@@ -26,6 +27,7 @@ app.use("/user", userRoutes);
 app.use("/upload", imageRoutes);
 app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use("/places", placeRoutes);
+app.use("/bookings", bookingRoutes);
 
 app.listen(PORT, () => {
   console.log(`App is listening at port => ${PORT}`);

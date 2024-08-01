@@ -12,25 +12,48 @@ const uploadImageByLink = async (req, res) => {
       url: link,
       dest: __dirname + "/" + newName,
     });
-    res.json(newName);
+
+    res.json({
+      status: 201,
+      message: "Image Uploaded",
+      data: {
+        newName: newName,
+      },
+    });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res.json({
+      status: error.status || 500,
+      message: error.message || "Something went wrong",
+      data: {},
+    });
   }
 };
 
 const photoMiddleware = multer({ dest: "uploads" });
 const uploadImage = async (req, res) => {
-  const files = req.files;
-  console.log(req.files);
-  const data = [];
-  for (let i = 0; i < files.length; i++) {
-    const ext = files[i].originalname.split(".")[1];
-    const { path } = files[i];
-    const newPath = path + "." + ext;
-    fs.renameSync(path, newPath);
-    data.push(newPath.replace("uploads\\", ""));
+  try {
+    const files = req.files;
+    console.log(req.files);
+    const data = [];
+    for (let i = 0; i < files.length; i++) {
+      const ext = files[i].originalname.split(".")[1];
+      const { path } = files[i];
+      const newPath = path + "." + ext;
+      fs.renameSync(path, newPath);
+      data.push(newPath.replace("uploads\\", ""));
+    }
+    res.json({
+      status: 201,
+      message: "Image Uploaded",
+      data: data,
+    });
+  } catch (error) {
+    res.json({
+      status: error.status || 500,
+      message: error.message || "Something went wrong",
+      data: {},
+    });
   }
-  res.json(data);
 };
 
 router.post("/uploadByLink", uploadImageByLink);

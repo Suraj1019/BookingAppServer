@@ -6,12 +6,17 @@ const bookPlace = async (req, res) => {
     const data = await booking.create({
       ...req.body,
     });
-    res.json({
+    res.status(201).json({
+      status: 201,
+      message: "Ok",
       data: data,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: error.message });
+    res.status(error.status || 500).json({
+      status: error.status || 500,
+      message: error.message || "Something went wrong",
+      data: {},
+    });
   }
 };
 
@@ -48,10 +53,17 @@ const getBookings = async (req, res) => {
       },
     ];
     const data = await booking.aggregate(pipeline);
-    res.json(data);
+    res.status(200).json({
+      status: 200,
+      message: "Ok",
+      data: data,
+    });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: error.message });
+    res.status(error.status || 500).json({
+      status: error.status || 500,
+      message: error.message || "Something went wrong",
+      data: {},
+    });
   }
 };
 
@@ -59,10 +71,17 @@ const getBookingDetails = async (req, res) => {
   const { bookingId } = req.query;
   try {
     const data = await booking.findById(new Types.ObjectId(bookingId));
-    res.json(data);
+    res.status(200).json({
+      status: 200,
+      message: "Ok",
+      data: data,
+    });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: error.message });
+    res.status(error.status || 500).json({
+      status: error.status || 500,
+      message: error.message || "Something went wrong",
+      data: {},
+    });
   }
 };
 

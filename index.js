@@ -8,6 +8,7 @@ const userRoutes = require("./user/userRoutes");
 const imageRoutes = require("./uploads/index");
 const placeRoutes = require("./places/placeRoutes");
 const bookingRoutes = require("./bookings/bookingRoutes");
+const auth = require("./auth");
 
 app.use(
   cors({
@@ -24,10 +25,10 @@ app.use(express.json());
 connectDB();
 
 app.use("/user", userRoutes);
-app.use("/upload", imageRoutes);
 app.use("/uploads", express.static(__dirname + "/uploads"));
+app.use("/upload", auth, imageRoutes);
 app.use("/places", placeRoutes);
-app.use("/bookings", bookingRoutes);
+app.use("/bookings", auth, bookingRoutes);
 
 app.listen(PORT, () => {
   console.log(`App is listening at port => ${PORT}`);

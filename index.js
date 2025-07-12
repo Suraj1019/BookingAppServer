@@ -26,7 +26,7 @@ connectDB();
 
 app.use("/user", userRoutes);
 app.use("/uploads", express.static(__dirname + "/uploads"));
-app.use("/upload", auth, imageRoutes);
+app.use("/upload", imageRoutes);
 app.use("/places", placeRoutes);
 app.use("/bookings", auth, bookingRoutes);
 

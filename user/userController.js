@@ -7,7 +7,9 @@ const register = async (req, res) => {
   try {
     const existingUser = await user.findOne({ email });
     if (existingUser) {
-      throw new Error("User Already Exists");
+      const error = new Error("User Already Exists");
+      error.status = 409;
+      throw error;
     }
 
     const userDoc = await user.create({
@@ -19,11 +21,10 @@ const register = async (req, res) => {
     const token = jwt.sign(
       { email: userDoc.email, id: userDoc._id },
       process.env.jwtSecret,
-      { expiresIn: "1d" }
+      { expiresIn: "1d" },
     );
 
-    res.json({
-      status: 201,
+    res.status(201).json({
       message: "User Registered Successfully",
       data: {
         name: userDoc.name,
@@ -33,7 +34,7 @@ const register = async (req, res) => {
       },
     });
   } catch (error) {
-    res.json({
+    res.status(error.status || 500).json({
       status: error.status || 500,
       message: error.message || "Something went wrong",
       data: {},
@@ -46,22 +47,25 @@ const login = async (req, res) => {
   try {
     const userDoc = await user.findOne({ email });
     if (!userDoc) {
-      throw new Error("User does not exist");
+      const error = new Error("User does not exist");
+      error.status = 404;
+      throw error;
     }
 
     const isPasswordCorrect = bcrypt.compareSync(password, userDoc.password);
     if (!isPasswordCorrect) {
-      throw new Error("Incorrect Password");
+      const error = new Error("Incorrect Password");
+      error.status = 401;
+      throw error;
     }
 
     const token = jwt.sign(
       { email: userDoc.email, id: userDoc._id },
       process.env.jwtSecret,
-      { expiresIn: "1d" }
+      { expiresIn: "1d" },
     );
 
-    res.json({
-      status: 200,
+    res.status(200).json({
       message: "Logged in Successfully",
       data: {
         name: userDoc.name,
@@ -71,8 +75,7 @@ const login = async (req, res) => {
       },
     });
   } catch (error) {
-    res.json({
-      status: error.status || 500,
+    res.status(error.status || 500).json({
       message: error.message || "Something went wrong",
       data: {},
     });

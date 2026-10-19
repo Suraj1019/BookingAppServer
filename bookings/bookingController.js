@@ -7,13 +7,11 @@ const bookPlace = async (req, res) => {
       ...req.body,
     });
     res.status(201).json({
-      status: 201,
-      message: "Ok",
+      message: "Place Booked Successfully",
       data: data,
     });
   } catch (error) {
     res.status(error.status || 500).json({
-      status: error.status || 500,
       message: error.message || "Something went wrong",
       data: {},
     });
@@ -72,13 +70,11 @@ const getBookingDetails = async (req, res) => {
   try {
     const data = await booking.findById(new Types.ObjectId(bookingId));
     res.status(200).json({
-      status: 200,
       message: "Ok",
       data: data,
     });
   } catch (error) {
     res.status(error.status || 500).json({
-      status: error.status || 500,
       message: error.message || "Something went wrong",
       data: {},
     });

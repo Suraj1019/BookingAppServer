@@ -27,7 +27,7 @@ const uploadToCloudinary = (fileBuffer, filename) => {
       (error, result) => {
         if (error) reject(error);
         else resolve(result.secure_url);
-      }
+      },
     );
     streamifier.createReadStream(fileBuffer).pipe(stream);
   });
@@ -47,14 +47,12 @@ const uploadImageByLink = async (req, res) => {
 
     fs.unlinkSync(localPath); // Clean up local temp file
 
-    res.json({
-      status: 201,
+    res.status(201).json({
       message: "Image Uploaded",
       data: { url: imageUrl },
     });
   } catch (error) {
-    res.status(500).json({
-      status: error.status || 500,
+    res.status(500 || error.status).json({
       message: error.message || "Something went wrong",
       data: {},
     });
@@ -72,14 +70,12 @@ const uploadImage = async (req, res) => {
       urls.push(url);
     }
 
-    res.json({
-      status: 201,
+    res.status(201).json({
       message: "Images Uploaded",
       data: urls,
     });
   } catch (error) {
-    res.status(500).json({
-      status: error.status || 500,
+    res.status(500 || error.status).json({
       message: error.message || "Something went wrong",
       data: {},
     });

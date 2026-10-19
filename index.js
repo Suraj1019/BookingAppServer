@@ -10,13 +10,20 @@ const placeRoutes = require("./places/placeRoutes");
 const bookingRoutes = require("./bookings/bookingRoutes");
 const auth = require("./auth");
 
+const allowedOrigins = (process.env.CORS_ORIGINS || "")
+  .split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
+
 app.use(
   cors({
     credentials: true,
-    origin: [
-      "http://localhost:3000",
-      "https://accommodation-booking-app.netlify.app",
-    ],
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      callback(new Error("Not allowed by CORS"));
+    },
   }),
 );
 
